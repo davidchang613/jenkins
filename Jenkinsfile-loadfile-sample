@@ -1,0 +1,21 @@
+def map = [:]
+def modules = [:]
+
+pipeline {
+  agent any
+
+  stages {
+    stage('load file') {
+      steps {
+        script {
+          modules.shared = load "./lib/shared.groovy"
+          modules.shared.getSelf()
+
+          echo 'read config.txt'
+          modules.shared.readVariablesFromFile("./config/config.data", map)
+          echo map['line1']
+        }
+      }
+    }
+  }
+}
